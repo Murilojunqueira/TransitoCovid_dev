@@ -1,0 +1,26 @@
+---
+pagetitle: Monitor de Quarentena - Sobre o Autor
+---
+
+<link rel="stylesheet" href="styles.css" type="text/css">
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+
+<img src="doc/figures/photos/MyPhoto.jpg" style="width:25%; border:10px solid; margin-right: 20px" align="left">
+
+
+### Sobre o Autor:
+
+<p>&nbsp;</p>
+
+#### Murilo de Olivera Junqueira
+#### Ciêntista Político e Cientista de Dados.
+#### Professor de Ciência Política (UFPA-Belém) 
+
+#### Email: m.junqueira@yahoo.com.br
+#### GitHub: [github.com/Murilojunqueira](https://github.com/Murilojunqueira)
+#### Instagram: [murilojunqueira31](https://www.instagram.com/murilojunqueira31)
+
+

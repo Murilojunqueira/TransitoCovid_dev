@@ -1,0 +1,7 @@
+TZ="America/Sao_Paulo"
+PATH="${RTOOLS40_HOME}\usr\bin;${PATH}"
+GCE_AUTH_FILE="data/keys/gce_key.json"
+GCE_DEFAULT_PROJECT_ID="rare-style-276702"
+GCE_DEFAULT_ZONE="southamerica-east1-a"
+GCS_AUTH_FILE="data/keys/gcs_key.json"
+GCS_DEFAULT_BUCKET=quarantine-monitor-cloud

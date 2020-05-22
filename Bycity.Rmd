@@ -1,0 +1,38 @@
+---
+pagetitle: Monitor de Quarentena - Informações por Cidade
+---
+
+<link rel="stylesheet" href="styles.css" type="text/css">
+
+## Indicador de trânsito por cidade
+
+<p>&nbsp;</p>
+
+```{r, , echo=FALSE, results='asis'}
+  LastUpdate <- readLines("doc/figures/website/LastUpdate.txt")
+  cat('<center> <h4> Ultima Atualização - ', LastUpdate, '</h4> </center> \n')
+```
+
+
+<p>&nbsp;</p>
+
+Abaixo você pode ver como está a quarentena na sua cidade:
+
+*As cidades estão por ordem de população.*
+
+<p>&nbsp;</p>
+
+```{r, , echo=FALSE, results='asis'}
+
+ListaImagens <- list.files(path = "doc/figures/website/", pattern = "^Transito ")
+ListaCidades <- sub(".png", "", ListaImagens)
+ListaCidades <- sub("Transito ... - ", "", ListaCidades)
+
+for (i in seq_along(ListaCidades)){
+  cat('\n')  
+  cat('<p>&nbsp;</p>') 
+  cat('<center> <h3>', ListaCidades[i], ': </h3> </center> \n') 
+  cat("![ ](doc/figures/website/", ListaImagens[i], ")", sep = "")
+  cat('\n') 
+}
+```

@@ -1,0 +1,20 @@
+name: "Monitor de Quarentena"
+output_dir: "."
+navbar:
+  title: "Monitor de Quarentena"
+  
+  left:
+    - text: "Indicador por cidade"
+      href: Bycity.html
+
+  
+  right:
+    - text: "Sobre o Autor"
+      href: PersonaInfo.html    
+    - icon: fa-github fa-lg
+      href: https://github.com/Murilojunqueira/TransitoCovid
+
+output:
+  html_document:
+  theme: paper
+  css: 'styles.css'
