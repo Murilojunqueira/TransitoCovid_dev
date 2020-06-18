@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Monitor de Quarentena - Informações por Cidade</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Monitor de Quarentena</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="Bycity.html">Indicador por cidade</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="PersonaInfo.html">Sobre o Autor</a>
+</li>
+<li>
+  <a href="https://github.com/Murilojunqueira/TransitoCovid">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+
+</div>
+
+
+<p><link rel="stylesheet" href="styles.css" type="text/css"></p>
+<div id="indicador-de-trânsito-por-cidade" class="section level2">
+<h2>Indicador de trânsito por cidade</h2>
+<p>
+ 
+</p>
+<center>
+<h4>
+Ultima Atualização - 2020-06-17
+</h4>
+</center>
+<p>
+ 
+</p>
+<p>Abaixo você pode ver como está a quarentena na sua cidade:</p>
+<p><em>As cidades estão por ordem de população.</em></p>
+<p>
+ 
+</p>
+<p>
+ 
+</p>
+<center>
+<h3>
+SÃO PAULO :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20001%20-%20SÃO%20PAULO.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+RIO DE JANEIRO :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20002%20-%20RIO%20DE%20JANEIRO.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+BRASÍLIA :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20003%20-%20BRASÍLIA.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+SALVADOR :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20004%20-%20SALVADOR.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+FORTALEZA :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20005%20-%20FORTALEZA.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+BELO HORIZONTE :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20006%20-%20BELO%20HORIZONTE.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+MANAUS :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20007%20-%20MANAUS.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+CURITIBA :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20008%20-%20CURITIBA.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+RECIFE :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20009%20-%20RECIFE.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+GOIÂNIA :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20010%20-%20GOIÂNIA.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+BELÉM :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20011%20-%20BELÉM.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+PORTO ALEGRE :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20012%20-%20PORTO%20ALEGRE.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+GUARULHOS :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20013%20-%20GUARULHOS.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+CAMPINAS :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20014%20-%20CAMPINAS.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+SÃO LUÍS :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20015%20-%20SÃO%20LUÍS.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+SÃO GONÇALO :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20016%20-%20SÃO%20GONÇALO.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+MACEIÓ :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20017%20-%20MACEIÓ.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+DUQUE DE CAXIAS :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20018%20-%20DUQUE%20DE%20CAXIAS.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+CAMPO GRANDE :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20019%20-%20CAMPO%20GRANDE.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+NATAL :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20020%20-%20NATAL.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+TERESINA :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20021%20-%20TERESINA.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+SÃO BERNARDO DO CAMPO :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20022%20-%20SÃO%20BERNARDO%20DO%20CAMPO.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+NOVA IGUAÇU :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20023%20-%20NOVA%20IGUAÇU.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+JOÃO PESSOA :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20024%20-%20JOÃO%20PESSOA.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+SANTO ANDRÉ :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20025%20-%20SANTO%20ANDRÉ.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+SÃO JOSÉ DOS CAMPOS :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20026%20-%20SÃO%20JOSÉ%20DOS%20CAMPOS.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+JABOATÃO DOS GUARARAPES :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20027%20-%20JABOATÃO%20DOS%20GUARARAPES.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+OSASCO :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20028%20-%20OSASCO.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+RIBEIRÃO PRETO :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20029%20-%20RIBEIRÃO%20PRETO.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+UBERLÂNDIA :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20030%20-%20UBERLÂNDIA.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+SOROCABA :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20031%20-%20SOROCABA.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+CONTAGEM :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20032%20-%20CONTAGEM.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+ARACAJU :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20033%20-%20ARACAJU.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+FEIRA DE SANTANA :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20034%20-%20FEIRA%20DE%20SANTANA.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+CUIABÁ :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20035%20-%20CUIABÁ.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+JOINVILLE :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20036%20-%20JOINVILLE.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+APARECIDA DE GOIÂNIA :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20037%20-%20APARECIDA%20DE%20GOIÂNIA.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+JUIZ DE FORA :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20038%20-%20JUIZ%20DE%20FORA.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+LONDRINA :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20039%20-%20LONDRINA.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+ANANINDEUA :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20040%20-%20ANANINDEUA.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+PORTO VELHO :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20041%20-%20PORTO%20VELHO.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+NITERÓI :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20042%20-%20NITERÓI.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+BELFORD ROXO :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20043%20-%20BELFORD%20ROXO.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+SERRA :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20044%20-%20SERRA.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+CAXIAS DO SUL :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20045%20-%20CAXIAS%20DO%20SUL.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+CAMPOS DOS GOYTACAZES :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20046%20-%20CAMPOS%20DOS%20GOYTACAZES.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+MACAPÁ :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20047%20-%20MACAPÁ.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+FLORIANÓPOLIS :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20048%20-%20FLORIANÓPOLIS.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+VILA VELHA :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20049%20-%20VILA%20VELHA.png" /></p>
+<p>
+ 
+</p>
+<center>
+<h3>
+SÃO JOÃO DE MERITI :
+</h3>
+</center>
+<p><img src="doc/figures/website/Transito%20050%20-%20SÃO%20JOÃO%20DE%20MERITI.png" /></p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

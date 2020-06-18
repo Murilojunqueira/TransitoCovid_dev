@@ -4,8 +4,6 @@
 
 # Data criação: 2020-05-15
 
-library(rmarkdown)
-
 # Consolida informações do banco
 source("src/specifcFuntions/TabResumo_Update.R")
 
@@ -13,12 +11,12 @@ source("src/specifcFuntions/TabResumo_Update.R")
 source("src/specifcFuntions/FiguresWebSiteCloud.R")
 
 # Atualiza o HTML gerado pelos arquivos Rmd
+library(rmarkdown)
 render_site("index.Rmd")
 render_site("Bycity.Rmd")
 render_site("PersonaInfo.Rmd")
 
-# Atualiza o GitHub
-# install.packages("git2r")
+# Commit and push to github
+source("src/specifcFuntions/Push2GitHub.R")
 
-library(git2r)
 

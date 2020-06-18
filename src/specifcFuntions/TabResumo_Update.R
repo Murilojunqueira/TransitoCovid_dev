@@ -26,14 +26,6 @@ library(lubridate)
 
 gcs_global_bucket("quarantine-monitor-bd-dev")
 
-f <- function(x) {
-  suppressMessages(
-    suppressWarnings(
-      httr::content(x, encoding = "UTF-8")
-    )
-  )
-}
-
 # Dados dos gráficos
 TabResumo_Old <- suppressWarnings(
   suppressMessages(
@@ -44,11 +36,18 @@ Municipios <- suppressWarnings(
   suppressMessages(
     gcs_get_object("Municipios.csv"))) 
 
+# Referência do monitoramento da quarentena
+CityRef <- suppressWarnings(
+  suppressMessages(
+    gcs_get_object("CityRef.csv"))) 
 
-TabResumo_Old <- TabResumo_Old %>% dplyr::select(-X1)
+# gcs_list_objects()
+
+TabResumo_Old <- TabResumo_Old %>%  
+  mutate(Day_df = as_date(Day_df)) %>% 
+  dplyr::select(-X1)
 Municipios <- Municipios %>% dplyr::select(-X1)
-
-rm(f)
+CityRef <- CityRef %>% dplyr::select(-X1)
 
 ################### Atualizar tabela resumo #####################
 
@@ -156,6 +155,8 @@ for (i in seq_len(nrow(ToUpdate))) {
 }
 rm(i, ToUpdate)
 
+TabResumo_Old %>% map_chr(class)
+TabResumo_New %>% map_chr(class)
 
 if(nrow(TabResumo_New) > 0) {
   TabResumo_Join <- TabResumo_New %>% 
@@ -166,7 +167,6 @@ if(nrow(TabResumo_New) > 0) {
     left_join(select(Municipios, Munic_Id, Munic_Nome), 
               by = c("CityCode" = "Munic_Id")) %>% 
     rename(Cityname = Munic_Nome) %>% 
-    mutate(Day_df = as.character(Day_df)) %>% 
     select(CityCode, Cityname, Day_df, TransitIndicatorDay) %>% 
     ungroup() %>%
     bind_rows(TabResumo_Old) %>% 
@@ -184,6 +184,8 @@ if(nrow(TabResumo_New) > 0) {
 gcs_global_bucket("quarantine-monitor-bd-dev")
 
 x <- suppressMessages(gcs_upload(TabResumo_Join, name = "TabResumo.csv"))
+
+# gcs_list_objects(detail = "more")
 
 rm(x, TabResumo_Join, TabResumo_New, TabResumo_Old, Municipios, CityRef)
 

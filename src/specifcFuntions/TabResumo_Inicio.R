@@ -18,6 +18,8 @@ library(lubridate)
 # Lê os dados brutos das buscas e rotas
 QueriesIndex <- fread("data/dataset/QueriesIndex.csv", sep = ";", dec = ",", encoding = "UTF-8")
 Route_raw <- fread("data/dataset/Routes.csv", sep = ";", dec = ",", encoding = "UTF-8")
+CityRef <- fread("data/dataset/CityRef.csv", sep = ";", dec = ",", encoding = "UTF-8")
+
 
 # Une os dados das buscas com as rotas
 Route <- Route_raw %>% 
@@ -83,6 +85,8 @@ fwrite(CityRef, "data/dataset/CityRef.csv",
 gcs_global_bucket("quarantine-monitor-bd-dev")
 x <- suppressMessages(gcs_upload(MonitorReport, name = "TabResumo.csv"))
 x <- suppressMessages(gcs_upload(CityRef, name = "CityRef.csv"))
+
+# gcs_list_objects()
 
 rm(MonitorReport, CityRef, x)
 

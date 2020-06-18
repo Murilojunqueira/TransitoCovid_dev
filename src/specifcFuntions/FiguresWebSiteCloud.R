@@ -430,6 +430,7 @@ writeLines(as.character(max(TabResumo$Day_df, na.rm = TRUE)),
 # Limpa memória
 rm(TamanhoAltura, TamanhoLargura, Days_Plot)
 rm(CityRef, TabResumo, Municipios)
+rm(ListaCidades, ListaImagens, LastUpdate)
 
 message("Figures Updated")
 
