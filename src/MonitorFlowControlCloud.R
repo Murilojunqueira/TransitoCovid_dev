@@ -17,6 +17,8 @@ library(data.table)
 library(lubridate)
 library(googleCloudStorageR)
 
+setwd(rstudioapi::getActiveProject())
+
 apiKey <-  read_lines("data/keys/token_APIGDirections.txt")
 
 # Busca Dados do Google

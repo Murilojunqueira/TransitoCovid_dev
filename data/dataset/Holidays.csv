@@ -1,0 +1,19 @@
+Dia;Desc;Tipo;DiaSem
+01/01/2020;Ano Novo;feriado;3
+24/02/2020;segunda-feira de Carnaval;facultativo;1
+25/02/2020;Carnaval;feriado;2
+26/02/2020;quarta-feira de Cinzas é ponto facultativo até as 14h;facultativo;3
+10/04/2020;Paixão de Cristo ou Sexta-Feira Santa;feriado;5
+12/04/2020;Páscoa;feriado;7
+20/04/2020;Tiradentes;facultativo;1
+21/04/2020;Tiradentes;feriado;2
+01/05/2020;Dia Mundial do Trabalho;feriado;5
+11/06/2020;Corpus Christi;feriado;4
+12/06/2020;Corpus Christi;facultativo;5
+07/09/2020;Independência do Brasil;feriado;1
+12/10/2020;Nossa Senhora Aparecida;feriado;1
+28/10/2020;Dia do Servidor Público;facultativo;3
+02/11/2020;Finados;feriado;1
+15/11/2020;Proclamação da República;feriado;7
+20/11/2020;Dia da Consciência Negra;facultativo;5
+25/12/2020;Natal;feriado;5

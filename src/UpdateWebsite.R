@@ -7,13 +7,12 @@
 library(rmarkdown)
 
 # Consolida informações do banco
-source("src/UpdateDataset.R")
+source("src/specifcFuntions/TabResumo_Update.R")
 
 # Atualiza as figuras do site
-source("src/specifcFuntions/FiguresWebSite.R")
+source("src/specifcFuntions/FiguresWebSiteCloud.R")
 
 # Atualiza o HTML gerado pelos arquivos Rmd
-
 render_site("index.Rmd")
 render_site("Bycity.Rmd")
 render_site("PersonaInfo.Rmd")

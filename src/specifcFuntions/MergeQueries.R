@@ -23,7 +23,8 @@ File_List <- list.files("data/QueryData", pattern = "csv$")
 File_List_df <- File_List %>%
   str_replace("-", "----0000") %>% 
   tibble::enframe(name = NULL, value = "File_List") %>% 
-  separate(File_List, into = c("df_Name", "Data_extension"), sep = "----0000")
+  separate(File_List, into = c("df_Name", "Data_extension"), 
+           sep = "----0000")
 
 # table(File_List_df$df_Name)
 

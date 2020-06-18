@@ -34,8 +34,28 @@ for (i in seq_len(nrow(objects))) {
   # i <- 5
   # get data
   message("Downloading ", objects$name[[i]])
-  suppressMessages(
-    parsed_download <- gcs_get_object(objects$name[[i]]))
+  
+  # Sistema para tornar a busca mais robusta
+  for (j in 1:5) {
+    suppressMessages(
+      parsed_download <- try(gcs_get_object(objects$name[[i]])))
+    
+    if(class(parsed_download)[1] == "try-error" || 
+       isTRUE(nrow(parsed_download) == 0)) {
+      
+      message("Error in communication with Google Storage. Trying again...")
+      Sys.sleep(3)
+      
+    } else {
+      break
+    }
+  }
+  # Mensagem de erro se não foi possível baixar o arquivo após 5 tentativas
+  if(class(parsed_download)[1] == "try-error" || isTRUE(nrow(parsed_download) == 0)) {
+    
+    message("Unable to get file ", objects$name[[i]])
+    next
+  }
   
   # Guarda a hora do download
   objects$DownloadTime[[i]] <- as.character(lubridate::now())
@@ -51,8 +71,11 @@ for (i in seq_len(nrow(objects))) {
   
   # Deleta o arquivo e guarda a mensagem de retorno
   objects$BucketDeleted[[i]] <- gcs_delete_object(objects$name[[i]])
+  
+  # Espaçamento entre uma busca e outra
+  Sys.sleep(sample(1:3, 1))
 }
-rm(i, x)
+rm(i, j, x)
 
 # Salva controle dos arquivos baixados
 fwrite(objects, "data/dataset/GoogleCloudFiles.csv", 
